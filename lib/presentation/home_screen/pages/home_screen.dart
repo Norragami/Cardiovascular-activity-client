@@ -2,6 +2,7 @@ import 'package:cardiovascular_client/presentation/home_screen/cubits/ap_cubit/c
 import 'package:cardiovascular_client/presentation/home_screen/cubits/decimated_ecg_cubit/cubit/decimated_ecg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ecg_cubit/cubit/ecg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ppg_cubit/cubit/ppg_cubit.dart';
+import 'package:cardiovascular_client/presentation/statistics_screen/pages/statistics_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
     final ppgCubit = context.read<PpgCubit>();
     final apCubit = context.read<ApCubit>();
     final decimatedEcgCubit = context.read<DecimatedEcgCubit>();
+    // TODO Заменить путь на выбранный пользователем
     ecgCubit.getEcgData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_", 20000, 25000);
     ppgCubit.getPpgData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_", 20000, 25000);
     apCubit.getApData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_", 20000, 25000);
@@ -30,13 +32,27 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          const Row(
+          Row(
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.fromLTRB(105, 0, 0, 0),
                 child: Text('Пациент: Петров Петр Петрович',
                     style: TextStyle(fontSize: 20)),
               ),
+              const SizedBox(width: 100, height: 20,),
+              IconButton(
+                constraints: const BoxConstraints(
+                  maxHeight: 35,
+                  maxWidth: 35
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const StatisticsScreen(path: "Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_",)));
+              }
+              , icon: Center(child: const Icon(Icons.insert_drive_file)),
+              style: ButtonStyle(
+                iconSize: WidgetStateProperty.all(20),
+              ),
+              )
             ],
           ),
           BlocBuilder<DecimatedEcgCubit, DecimatedEcgState>(

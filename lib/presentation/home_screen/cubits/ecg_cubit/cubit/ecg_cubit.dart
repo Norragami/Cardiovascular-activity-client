@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cardiovascular_client/domain/repositories/julia_server_repository.dart';
-import 'package:cardiovascular_client/presentation/home_screen/utility/extract_data_from_JSON.dart';
+import 'package:cardiovascular_client/presentation/utility/extract_data_from_json.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
 

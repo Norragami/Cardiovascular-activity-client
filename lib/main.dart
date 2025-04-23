@@ -6,6 +6,8 @@ import 'package:cardiovascular_client/presentation/home_screen/cubits/decimated_
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ecg_cubit/cubit/ecg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ppg_cubit/cubit/ppg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/pages/home_screen.dart';
+import 'package:cardiovascular_client/presentation/statistics_screen/cubits/pulseWave_cubit/cubit/pulse_wave_cubit.dart';
+import 'package:cardiovascular_client/presentation/statistics_screen/cubits/rrIntervals_cubit/cubit/rr_intervals_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -54,14 +56,17 @@ class MainApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-       home: MultiBlocProvider(
+      home: const HomeScreen(),
+       builder:(context,child) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => EcgCubit()),
           BlocProvider(create: (context) => ApCubit()),
           BlocProvider(create: (context) => PpgCubit()),
           BlocProvider(create: (context) => DecimatedEcgCubit()),
+          BlocProvider(create: (context) => RrIntervalsCubit()),
+          BlocProvider(create: (context) => PulseWaveCubit()),
         ],
-        child: const HomeScreen(),
+        child: child!,
        ),
       supportedLocales: [
         Locale('ru','RU'),

@@ -88,6 +88,18 @@ class JuliaServerRepository {
       debugPrint(response.statusCode.toString());
       return {};}
   }
+  Future<Map<String,dynamic>> getStrokeVolumeData(String path) async {
+    Map<String,dynamic> dataToSend = {"path": path};
+    final response = await dio.post("http://127.0.0.1:8080/getHeartVolume", data: dataToSend, options: Options(headers: {'Content-Type': 'application/json'}),);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.data) as Map<String, dynamic>;
+      
+      return data;
+    }else {
+      debugPrint(response.statusCode.toString());
+      return {};}
+  }
 
   
 

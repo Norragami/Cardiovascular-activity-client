@@ -373,9 +373,9 @@ class HomeScreen extends StatelessWidget {
                 titlesData: FlTitlesData(
                     leftTitles: AxisTitles(
                         axisNameWidget: Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0 ),
                           child: const Text(
-                            "Амплитуда,отн.ед.",
+                            "мм рт.ст.",
                             style: TextStyle(
                               fontSize: 14,
                             ),

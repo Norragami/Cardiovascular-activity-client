@@ -6,6 +6,7 @@ import 'package:cardiovascular_client/presentation/home_screen/cubits/decimated_
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ecg_cubit/cubit/ecg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ppg_cubit/cubit/ppg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/pages/home_screen.dart';
+import 'package:cardiovascular_client/presentation/statistics_screen/cubits/heart_volume_cubit/cubit/heart_volume_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/pulseWave_cubit/cubit/pulse_wave_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/rrIntervals_cubit/cubit/rr_intervals_cubit.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +66,7 @@ class MainApp extends StatelessWidget {
           BlocProvider(create: (context) => DecimatedEcgCubit()),
           BlocProvider(create: (context) => RrIntervalsCubit()),
           BlocProvider(create: (context) => PulseWaveCubit()),
+          BlocProvider(create: (context) => HeartVolumeCubit()),
         ],
         child: child!,
        ),

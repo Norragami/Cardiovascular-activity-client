@@ -1,3 +1,4 @@
+import 'package:cardiovascular_client/presentation/statistics_screen/cubits/heart_volume_cubit/cubit/heart_volume_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/pulseWave_cubit/cubit/pulse_wave_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/rrIntervals_cubit/cubit/rr_intervals_cubit.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -14,10 +15,11 @@ class StatisticsScreen extends StatelessWidget {
 
     final rrIntervalsCubit = context.read<RrIntervalsCubit>();
     final pulseWaveCubit = context.read<PulseWaveCubit>();
+    final heartVolumeCubit = context.read<HeartVolumeCubit>();
 
     rrIntervalsCubit.getRrIntervalsData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_");
     pulseWaveCubit.getPulseWaveReachTimeData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_");
-
+    heartVolumeCubit.getStrokeVolumeData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_");
 
 
     return Scaffold(
@@ -53,7 +55,7 @@ class StatisticsScreen extends StatelessWidget {
                   getTooltipColor: (touchedSpot) => Colors.blue.shade400,
                   getTooltipItem: (group, groupIndex, rod, rodIndex) {
                     return BarTooltipItem(
-                      '${rod.toY.toString()}, с',
+                      'Значение: ${rod.toY.toString()}, с',
                       const TextStyle(
                         color: Colors.black,
                         
@@ -63,8 +65,8 @@ class StatisticsScreen extends StatelessWidget {
                     )),
                 borderData: FlBorderData(
                   border: const Border(
-                    bottom: BorderSide(width: 1),
-                    left: BorderSide(width: 1),
+                    bottom: BorderSide(width: 0),
+                    left: BorderSide(width: 0.25),
                   ),
                 ),
                  barGroups: [
@@ -162,7 +164,7 @@ class StatisticsScreen extends StatelessWidget {
                   getTooltipColor: (touchedSpot) => Colors.blue.shade400,
                   getTooltipItem: (group, groupIndex, rod, rodIndex) {
                     return BarTooltipItem(
-                      '${rod.toY.toString()}, с \n Время R-R ${(intervalsX[groupIndex]/1000).toStringAsFixed(1)} с',
+                      'Значение: ${rod.toY.toString()}, с \n Время R-R ${(intervalsX[groupIndex]/1000).toStringAsFixed(1)}с',
                       const TextStyle(
                         color: Colors.black,
                         
@@ -172,8 +174,8 @@ class StatisticsScreen extends StatelessWidget {
                     )),
                 borderData: FlBorderData(
                   border: const Border(
-                    bottom: BorderSide(width: 1),
-                    left: BorderSide(width: 1),
+                    bottom: BorderSide(width: 0),
+                    left: BorderSide(width: 0.25),
                   ),
                 ),
                  barGroups: [
@@ -204,7 +206,7 @@ class StatisticsScreen extends StatelessWidget {
                         axisNameSize: 40,
                         sideTitles: SideTitles(
                           showTitles: true,
-                          reservedSize: 35,
+                          reservedSize: 45,
                           maxIncluded: false,
                           getTitlesWidget: (value, meta) {
                             return Text(value.toStringAsFixed(1));
@@ -250,13 +252,110 @@ class StatisticsScreen extends StatelessWidget {
             
           ],
         ),
-        SizedBox(height: 100,),
         SizedBox(
-              width: 500,
+              width: 700,
               height: 300,
-              child: Card(
-                color: Colors.red,
-              ),
+              child: 
+              BlocBuilder<HeartVolumeCubit, HeartVolumeState>(
+                builder: (context, state) => state.when(
+                    initial: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
+                     loading: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
+                      loaded: (heartVolumes, heartVolumesPeaksCoordinates) =>
+                      
+                      Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: BarChart(BarChartData(
+                barTouchData: BarTouchData(
+                  
+                    touchTooltipData: BarTouchTooltipData(
+                  
+                  getTooltipColor: (touchedSpot) => Colors.blue.shade400,
+                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                    return BarTooltipItem(
+                      'Значение: ${rod.toY.toStringAsFixed(2)}мл\nВремя пика АД ${(heartVolumesPeaksCoordinates[groupIndex]/1000).toStringAsFixed(1)}с',
+                      const TextStyle(
+                        color: Colors.black,
+                        
+                      ),
+                    );
+                  }
+                    )),
+                borderData: FlBorderData(
+                  border: const Border(
+                    bottom: BorderSide(width: 0),
+                    left: BorderSide(width: 0.25),
+                  ),
+                ),
+                 barGroups: [
+                for (int i = 0; i < heartVolumes.length; i++)
+                  BarChartGroupData(
+                    x: i,
+                    barsSpace: 1,
+                    barRods: [
+                      BarChartRodData(
+                        toY: heartVolumes[i],
+                        width: 1,
+                        color: Colors.blue.shade400,
+                      ),
+                    ]
+                  )
+                ],
+                titlesData: FlTitlesData(
+                    leftTitles: AxisTitles(
+                        axisNameWidget: Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          child: const Text(
+                            "Сердечный выброс, мл",
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        axisNameSize: 40,
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 35,
+                          maxIncluded: false,
+                          getTitlesWidget: (value, meta) {
+                            return Text(value.toStringAsFixed(1));
+                          },
+                        )),
+                    bottomTitles: const AxisTitles(
+                        axisNameWidget: Text(
+                          "N сердечных выбросов",
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                        axisNameSize: 30,
+                        sideTitles: SideTitles(
+                          showTitles: false,
+                          reservedSize: 30,
+                        )),
+                    topTitles: AxisTitles(
+                        axisNameWidget: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          child: const Text(
+                            "Ритмограмма сердечных выбросов",
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        axisNameSize: 40,
+                        sideTitles: SideTitles(
+                          showTitles: false,
+                          
+                        )),
+                    rightTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    )),
+              )),
+            ),
+                      
+                      )
+                    
+                )
               ),
         ]
       ),

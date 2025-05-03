@@ -17,8 +17,13 @@ class RrIntervalsCubit extends Cubit<RrIntervalsState> {
     var rrIntervalsData =
         await _juliaServerRepository.getRrIntervalsData(path);
     var outputRrIntervals = extractDataFromJson("RrIntervals", rrIntervalsData);
-    var outputRrIntervalsX = extractDataFromJson("RrIntervalsX", rrIntervalsData);
-    emit(RrIntervalsState.loaded(outputRrIntervals, outputRrIntervalsX));
+    
+    var mRR = extractDataFromJson("mRR", rrIntervalsData);
+    var sdrr = extractDataFromJson("SDRR", rrIntervalsData);
+    var pnn50 = extractDataFromJson("pNN50", rrIntervalsData);
+    var rmssd = extractDataFromJson("rMSSD", rrIntervalsData);
+    var msd = extractDataFromJson("MSD", rrIntervalsData);
+    emit(RrIntervalsState.loaded(outputRrIntervals,mRR.first,sdrr.first,msd.first, rmssd.first,pnn50.first ));
   }
 
 }

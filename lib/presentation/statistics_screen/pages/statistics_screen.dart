@@ -43,8 +43,7 @@ class StatisticsScreen extends StatelessWidget {
                 builder: (context, state) => state.when(
                     initial: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
                      loading: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
-                      loaded: (rrIntervals, rrIntervalsX) =>
-                      
+                      loaded: (rrIntervals,mRR, sdrr, msd, rmsd, pnn50 ) =>
                       Padding(
               padding: const EdgeInsets.all(5.0),
               child: BarChart(BarChartData(
@@ -109,7 +108,7 @@ class StatisticsScreen extends StatelessWidget {
                         )),
                     bottomTitles: const AxisTitles(
                         axisNameWidget: Text(
-                          "N интервала",
+                          "R-R интервалы",
                           style: TextStyle(
                             fontSize: 14,
                           ),
@@ -197,7 +196,7 @@ class StatisticsScreen extends StatelessWidget {
                         axisNameWidget: Padding(
                           padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
                           child: const Text(
-                            "Длительность, с",
+                            "Время распространения, с",
                             style: TextStyle(
                               fontSize: 14,
                             ),
@@ -214,7 +213,7 @@ class StatisticsScreen extends StatelessWidget {
                         )),
                     bottomTitles: const AxisTitles(
                         axisNameWidget: Text(
-                          "N интервала",
+                          "Пульсовые волны",
                           style: TextStyle(
                             fontSize: 14,
                           ),
@@ -252,111 +251,148 @@ class StatisticsScreen extends StatelessWidget {
             
           ],
         ),
-        SizedBox(
-              width: 700,
-              height: 300,
-              child: 
-              BlocBuilder<HeartVolumeCubit, HeartVolumeState>(
-                builder: (context, state) => state.when(
-                    initial: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
-                     loading: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
-                      loaded: (heartVolumes, heartVolumesPeaksCoordinates) =>
-                      
-                      Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: BarChart(BarChartData(
-                barTouchData: BarTouchData(
-                  
-                    touchTooltipData: BarTouchTooltipData(
-                  
-                  getTooltipColor: (touchedSpot) => Colors.blue.shade400,
-                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                    return BarTooltipItem(
-                      'Значение: ${rod.toY.toStringAsFixed(2)}мл\nВремя пика АД ${(heartVolumesPeaksCoordinates[groupIndex]/1000).toStringAsFixed(1)}с',
-                      const TextStyle(
-                        color: Colors.black,
-                        
-                      ),
-                    );
-                  }
-                    )),
-                borderData: FlBorderData(
-                  border: const Border(
-                    bottom: BorderSide(width: 0),
-                    left: BorderSide(width: 0.25),
-                  ),
-                ),
-                 barGroups: [
-                for (int i = 0; i < heartVolumes.length; i++)
-                  BarChartGroupData(
-                    x: i,
-                    barsSpace: 1,
-                    barRods: [
-                      BarChartRodData(
-                        toY: heartVolumes[i],
-                        width: 1,
-                        color: Colors.blue.shade400,
-                      ),
-                    ]
-                  )
-                ],
-                titlesData: FlTitlesData(
-                    leftTitles: AxisTitles(
-                        axisNameWidget: Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                          child: const Text(
-                            "Сердечный выброс, мл",
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                        axisNameSize: 40,
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 35,
-                          maxIncluded: false,
-                          getTitlesWidget: (value, meta) {
-                            return Text(value.toStringAsFixed(1));
-                          },
-                        )),
-                    bottomTitles: const AxisTitles(
-                        axisNameWidget: Text(
-                          "N сердечных выбросов",
-                          style: TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                        axisNameSize: 30,
-                        sideTitles: SideTitles(
-                          showTitles: false,
-                          reservedSize: 30,
-                        )),
-                    topTitles: AxisTitles(
-                        axisNameWidget: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                          child: const Text(
-                            "Ритмограмма сердечных выбросов",
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                        axisNameSize: 40,
-                        sideTitles: SideTitles(
-                          showTitles: false,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          
+          children: [
+            SizedBox(
+                  width: 700,
+                  height: 300,
+                  child: 
+                  BlocBuilder<HeartVolumeCubit, HeartVolumeState>(
+                    builder: (context, state) => state.when(
+                        initial: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
+                         loading: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
+                          loaded: (heartVolumes, heartVolumesPeaksCoordinates) =>
                           
-                        )),
-                    rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    )),
-              )),
-            ),
+                          Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: BarChart(BarChartData(
+                    barTouchData: BarTouchData(
                       
+                        touchTooltipData: BarTouchTooltipData(
+                      
+                      getTooltipColor: (touchedSpot) => Colors.blue.shade400,
+                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                        return BarTooltipItem(
+                          'Значение: ${rod.toY.toStringAsFixed(2)}мл\nВремя пика АД ${(heartVolumesPeaksCoordinates[groupIndex]/1000).toStringAsFixed(1)}с',
+                          const TextStyle(
+                            color: Colors.black,
+                            
+                          ),
+                        );
+                      }
+                        )),
+                    borderData: FlBorderData(
+                      border: const Border(
+                        bottom: BorderSide(width: 0),
+                        left: BorderSide(width: 0.25),
+                      ),
+                    ),
+                     barGroups: [
+                    for (int i = 0; i < heartVolumes.length; i++)
+                      BarChartGroupData(
+                        x: i,
+                        barsSpace: 1,
+                        barRods: [
+                          BarChartRodData(
+                            toY: heartVolumes[i],
+                            width: 1,
+                            color: Colors.blue.shade400,
+                          ),
+                        ]
                       )
-                    
+                    ],
+                    titlesData: FlTitlesData(
+                        leftTitles: AxisTitles(
+                            axisNameWidget: Padding(
+                              padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                              child: const Text(
+                                "Ударный объем, мл",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            axisNameSize: 40,
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 35,
+                              maxIncluded: false,
+                              getTitlesWidget: (value, meta) {
+                                return Text(value.toStringAsFixed(1));
+                              },
+                            )),
+                        bottomTitles: const AxisTitles(
+                            axisNameWidget: Text(
+                              "N сердечных сокращений",
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            axisNameSize: 30,
+                            sideTitles: SideTitles(
+                              showTitles: false,
+                              reservedSize: 30,
+                            )),
+                        topTitles: AxisTitles(
+                            axisNameWidget: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                              child: const Text(
+                                "Ритмограмма ударного объема",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            axisNameSize: 40,
+                            sideTitles: SideTitles(
+                              showTitles: false,
+                              
+                            )),
+                        rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        )),
+                  )),
+                ),
+                          
+                          )
+                        
+                    )
+                  ),
+          
+          SizedBox(
+            height: 300,
+            width: 700,
+            child: BlocBuilder<RrIntervalsCubit,RrIntervalsState>(
+              builder:(context,state)=> state.when(
+                initial: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
+                loading: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
+                loaded: (rrIntervals,mRR, sdrr, msd, rmssd, pnn50)=> Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      
+                      Text('mRR: ${mRR.toStringAsFixed(5)} мс', style: TextStyle(fontSize: 15),),
+                      SizedBox(height: 10,),
+                      Text('SDRR: ${sdrr.toStringAsFixed(5)} мс', style: TextStyle(fontSize: 15),),
+                      SizedBox(height: 10,),
+                      Text('MSD: ${msd.toStringAsFixed(5)} мс', style: TextStyle(fontSize: 15),),
+                      SizedBox(height: 10,),
+                      Text('rMSD: ${rmssd.toStringAsFixed(5)} мс', style: TextStyle(fontSize: 15),),
+                      SizedBox(height: 10,),
+                      Text('PNN50: ${pnn50.toStringAsFixed(2)} %', style: TextStyle(fontSize: 15),),
+                      SizedBox(height: 10,),
+                    ],
+                  ),
+                  ),
+                
                 )
+                
               ),
+          )
+          ],
+        ),
         ]
       ),
     );

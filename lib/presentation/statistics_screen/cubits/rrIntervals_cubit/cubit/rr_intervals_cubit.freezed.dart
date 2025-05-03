@@ -20,8 +20,8 @@ mixin _$RrIntervalsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<double> rrIntervals, List<double> rrIntervalsX)
+    required TResult Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,7 +29,8 @@ mixin _$RrIntervalsState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<double> rrIntervals, List<double> rrIntervalsX)?
+    TResult? Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)?
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,7 +38,8 @@ mixin _$RrIntervalsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<double> rrIntervals, List<double> rrIntervalsX)?
+    TResult Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)?
         loaded,
     required TResult orElse(),
   }) =>
@@ -130,8 +132,8 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<double> rrIntervals, List<double> rrIntervalsX)
+    required TResult Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)
         loaded,
   }) {
     return initial();
@@ -142,7 +144,8 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<double> rrIntervals, List<double> rrIntervalsX)?
+    TResult? Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)?
         loaded,
   }) {
     return initial?.call();
@@ -153,7 +156,8 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<double> rrIntervals, List<double> rrIntervalsX)?
+    TResult Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)?
         loaded,
     required TResult orElse(),
   }) {
@@ -245,8 +249,8 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<double> rrIntervals, List<double> rrIntervalsX)
+    required TResult Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)
         loaded,
   }) {
     return loading();
@@ -257,7 +261,8 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<double> rrIntervals, List<double> rrIntervalsX)?
+    TResult? Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)?
         loaded,
   }) {
     return loading?.call();
@@ -268,7 +273,8 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<double> rrIntervals, List<double> rrIntervalsX)?
+    TResult Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)?
         loaded,
     required TResult orElse(),
   }) {
@@ -323,7 +329,13 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<double> rrIntervals, List<double> rrIntervalsX});
+  $Res call(
+      {List<double> rrIntervals,
+      double mRR,
+      double sdrr,
+      double msd,
+      double rmsd,
+      double pnn50});
 }
 
 /// @nodoc
@@ -340,17 +352,37 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? rrIntervals = null,
-    Object? rrIntervalsX = null,
+    Object? mRR = null,
+    Object? sdrr = null,
+    Object? msd = null,
+    Object? rmsd = null,
+    Object? pnn50 = null,
   }) {
     return _then(_$LoadedImpl(
       null == rrIntervals
           ? _value._rrIntervals
           : rrIntervals // ignore: cast_nullable_to_non_nullable
               as List<double>,
-      null == rrIntervalsX
-          ? _value._rrIntervalsX
-          : rrIntervalsX // ignore: cast_nullable_to_non_nullable
-              as List<double>,
+      null == mRR
+          ? _value.mRR
+          : mRR // ignore: cast_nullable_to_non_nullable
+              as double,
+      null == sdrr
+          ? _value.sdrr
+          : sdrr // ignore: cast_nullable_to_non_nullable
+              as double,
+      null == msd
+          ? _value.msd
+          : msd // ignore: cast_nullable_to_non_nullable
+              as double,
+      null == rmsd
+          ? _value.rmsd
+          : rmsd // ignore: cast_nullable_to_non_nullable
+              as double,
+      null == pnn50
+          ? _value.pnn50
+          : pnn50 // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -358,10 +390,9 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(
-      final List<double> rrIntervals, final List<double> rrIntervalsX)
-      : _rrIntervals = rrIntervals,
-        _rrIntervalsX = rrIntervalsX;
+  const _$LoadedImpl(final List<double> rrIntervals, this.mRR, this.sdrr,
+      this.msd, this.rmsd, this.pnn50)
+      : _rrIntervals = rrIntervals;
 
   final List<double> _rrIntervals;
   @override
@@ -371,17 +402,20 @@ class _$LoadedImpl implements _Loaded {
     return EqualUnmodifiableListView(_rrIntervals);
   }
 
-  final List<double> _rrIntervalsX;
   @override
-  List<double> get rrIntervalsX {
-    if (_rrIntervalsX is EqualUnmodifiableListView) return _rrIntervalsX;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_rrIntervalsX);
-  }
+  final double mRR;
+  @override
+  final double sdrr;
+  @override
+  final double msd;
+  @override
+  final double rmsd;
+  @override
+  final double pnn50;
 
   @override
   String toString() {
-    return 'RrIntervalsState.loaded(rrIntervals: $rrIntervals, rrIntervalsX: $rrIntervalsX)';
+    return 'RrIntervalsState.loaded(rrIntervals: $rrIntervals, mRR: $mRR, sdrr: $sdrr, msd: $msd, rmsd: $rmsd, pnn50: $pnn50)';
   }
 
   @override
@@ -391,15 +425,22 @@ class _$LoadedImpl implements _Loaded {
             other is _$LoadedImpl &&
             const DeepCollectionEquality()
                 .equals(other._rrIntervals, _rrIntervals) &&
-            const DeepCollectionEquality()
-                .equals(other._rrIntervalsX, _rrIntervalsX));
+            (identical(other.mRR, mRR) || other.mRR == mRR) &&
+            (identical(other.sdrr, sdrr) || other.sdrr == sdrr) &&
+            (identical(other.msd, msd) || other.msd == msd) &&
+            (identical(other.rmsd, rmsd) || other.rmsd == rmsd) &&
+            (identical(other.pnn50, pnn50) || other.pnn50 == pnn50));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_rrIntervals),
-      const DeepCollectionEquality().hash(_rrIntervalsX));
+      mRR,
+      sdrr,
+      msd,
+      rmsd,
+      pnn50);
 
   /// Create a copy of RrIntervalsState
   /// with the given fields replaced by the non-null parameter values.
@@ -414,11 +455,11 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<double> rrIntervals, List<double> rrIntervalsX)
+    required TResult Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)
         loaded,
   }) {
-    return loaded(rrIntervals, rrIntervalsX);
+    return loaded(rrIntervals, mRR, sdrr, msd, rmsd, pnn50);
   }
 
   @override
@@ -426,10 +467,11 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<double> rrIntervals, List<double> rrIntervalsX)?
+    TResult? Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)?
         loaded,
   }) {
-    return loaded?.call(rrIntervals, rrIntervalsX);
+    return loaded?.call(rrIntervals, mRR, sdrr, msd, rmsd, pnn50);
   }
 
   @override
@@ -437,12 +479,13 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<double> rrIntervals, List<double> rrIntervalsX)?
+    TResult Function(List<double> rrIntervals, double mRR, double sdrr,
+            double msd, double rmsd, double pnn50)?
         loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(rrIntervals, rrIntervalsX);
+      return loaded(rrIntervals, mRR, sdrr, msd, rmsd, pnn50);
     }
     return orElse();
   }
@@ -484,11 +527,19 @@ class _$LoadedImpl implements _Loaded {
 
 abstract class _Loaded implements RrIntervalsState {
   const factory _Loaded(
-          final List<double> rrIntervals, final List<double> rrIntervalsX) =
-      _$LoadedImpl;
+      final List<double> rrIntervals,
+      final double mRR,
+      final double sdrr,
+      final double msd,
+      final double rmsd,
+      final double pnn50) = _$LoadedImpl;
 
   List<double> get rrIntervals;
-  List<double> get rrIntervalsX;
+  double get mRR;
+  double get sdrr;
+  double get msd;
+  double get rmsd;
+  double get pnn50;
 
   /// Create a copy of RrIntervalsState
   /// with the given fields replaced by the non-null parameter values.

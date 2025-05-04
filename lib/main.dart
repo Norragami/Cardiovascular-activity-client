@@ -25,7 +25,7 @@ void main() async {
 
       WindowOptions windowOptions = const WindowOptions(
         minimumSize: Size(1400, 800),
-        size: Size(1600, 900),
+        size: Size(1600, 950),
         center: true,
         // skipTaskbar: false,
         titleBarStyle: TitleBarStyle.normal,

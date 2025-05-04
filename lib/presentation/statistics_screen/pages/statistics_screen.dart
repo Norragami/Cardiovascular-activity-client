@@ -1,3 +1,4 @@
+import 'package:cardiovascular_client/domain/core/strings.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/heart_volume_cubit/cubit/heart_volume_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/pulseWave_cubit/cubit/pulse_wave_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/rrIntervals_cubit/cubit/rr_intervals_cubit.dart';
@@ -17,9 +18,9 @@ class StatisticsScreen extends StatelessWidget {
     final pulseWaveCubit = context.read<PulseWaveCubit>();
     final heartVolumeCubit = context.read<HeartVolumeCubit>();
 
-    rrIntervalsCubit.getRrIntervalsData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_");
-    pulseWaveCubit.getPulseWaveReachTimeData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_");
-    heartVolumeCubit.getStrokeVolumeData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_");
+    rrIntervalsCubit.getRrIntervalsData(Strings.patient1);
+    pulseWaveCubit.getPulseWaveReachTimeData(Strings.patient1);
+    heartVolumeCubit.getStrokeVolumeData(Strings.patient1);
 
 
     return Scaffold(
@@ -163,7 +164,7 @@ class StatisticsScreen extends StatelessWidget {
                   getTooltipColor: (touchedSpot) => Colors.blue.shade400,
                   getTooltipItem: (group, groupIndex, rod, rodIndex) {
                     return BarTooltipItem(
-                      'Значение: ${rod.toY.toString()}, с \n Время R-R ${(intervalsX[groupIndex]/1000).toStringAsFixed(1)}с',
+                      'Значение: ${rod.toY.toString()}, мс \n Время R-R ${(intervalsX[groupIndex]/1000).toStringAsFixed(1)}с',
                       const TextStyle(
                         color: Colors.black,
                         
@@ -196,7 +197,7 @@ class StatisticsScreen extends StatelessWidget {
                         axisNameWidget: Padding(
                           padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
                           child: const Text(
-                            "Время распространения, с",
+                            "Время распространения, мс",
                             style: TextStyle(
                               fontSize: 14,
                             ),

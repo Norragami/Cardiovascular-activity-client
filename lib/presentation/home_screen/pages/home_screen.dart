@@ -1,3 +1,4 @@
+import 'package:cardiovascular_client/domain/core/strings.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ap_cubit/cubit/ap_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/decimated_ecg_cubit/cubit/decimated_ecg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ecg_cubit/cubit/ecg_cubit.dart';
@@ -17,10 +18,10 @@ class HomeScreen extends StatelessWidget {
     final apCubit = context.read<ApCubit>();
     final decimatedEcgCubit = context.read<DecimatedEcgCubit>();
     // TODO Заменить путь на выбранный пользователем
-    ecgCubit.getEcgData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_", 20000, 25000);
-    ppgCubit.getPpgData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_", 20000, 25000);
-    apCubit.getApData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_", 20000, 25000);
-    decimatedEcgCubit.getDecimatedEcgData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_");
+    ecgCubit.getEcgData(Strings.patient1, 20000, 25000);
+    ppgCubit.getPpgData(Strings.patient1, 20000, 25000);
+    apCubit.getApData(Strings.patient1, 20000, 25000);
+    decimatedEcgCubit.getDecimatedEcgData(Strings.patient1);
  // Height of the rectangle // Width of the rectangle
 
     return Scaffold(
@@ -34,24 +35,23 @@ class HomeScreen extends StatelessWidget {
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.fromLTRB(105, 0, 0, 0),
-                child: Text('Пациент: Петров Петр Петрович',
-                    style: TextStyle(fontSize: 20)),
+               Padding(
+                padding: EdgeInsets.fromLTRB(105, 10, 0, 0),
+                child: SizedBox(
+                  height: 30,
+                  child: DropdownMenu(dropdownMenuEntries: <DropdownMenuEntry> [
+                    DropdownMenuEntry(value: 1, label: 'Петров Пётр Петрович')
+                  ]
+                  
+                  ),
+                )
               ),
-              const SizedBox(width: 100, height: 20,),
-              IconButton(
-                constraints: const BoxConstraints(
-                  maxHeight: 35,
-                  maxWidth: 35
-                ),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const StatisticsScreen(path: "Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_",)));
-              }
-              , icon: Center(child: const Icon(Icons.insert_drive_file)),
-              style: ButtonStyle(
-                iconSize: WidgetStateProperty.all(20),
-              ),
+              const SizedBox(width: 50, height: 30,),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: ElevatedButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const StatisticsScreen(path: Strings.patient1,)));
+                }, child: Center(child: Text('Статистика'))),
               )
             ],
           ),
@@ -98,9 +98,9 @@ class HomeScreen extends StatelessWidget {
                     final start = (dragX.value! - rectWidth / 2).clamp(xMin, xMax - rectWidth);
                     final end = (dragX.value! + rectWidth / 2).clamp(xMin + rectWidth, xMax);
                     print('Начальная точка: $start, конечная точка: $end');
-                    ecgCubit.getEcgData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_", start.toInt()*50, end.toInt()*50);
-                    ppgCubit.getPpgData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_", start.toInt()*50, end.toInt()*50);
-                    apCubit.getApData("Мельникова_Елизавета_Дмитриевна_21-04-22_11-43-20_", start.toInt()*50, end.toInt()*50);
+                    ecgCubit.getEcgData(Strings.patient1, start.toInt()*50, end.toInt()*50);
+                    ppgCubit.getPpgData(Strings.patient1, start.toInt()*50, end.toInt()*50);
+                    apCubit.getApData(Strings.patient1, start.toInt()*50, end.toInt()*50);
                     }
                   },
                   child: Stack(

@@ -3,6 +3,7 @@ import 'package:cardiovascular_client/presentation/home_screen/cubits/ap_cubit/c
 import 'package:cardiovascular_client/presentation/home_screen/cubits/decimated_ecg_cubit/cubit/decimated_ecg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ecg_cubit/cubit/ecg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ppg_cubit/cubit/ppg_cubit.dart';
+import 'package:cardiovascular_client/presentation/settings_screen/pages/settings_screen.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/pages/statistics_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,9 @@ class HomeScreen extends StatelessWidget {
             'Приложение для анализа сердечно-сосудистой деятельности'),
         centerTitle: true,
         backgroundColor: Colors.blue.shade400,
+        actions: [IconButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
+        }, icon: const Icon(Icons.settings))],
       ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -41,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                   height: 30,
                   child: DropdownMenu(dropdownMenuEntries: <DropdownMenuEntry> [
                     DropdownMenuEntry(value: 1, label: 'Петров Пётр Петрович')
-                  ]
+                  ],initialSelection: 1,
                   
                   ),
                 )
@@ -52,17 +56,35 @@ class HomeScreen extends StatelessWidget {
                 child: ElevatedButton(onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (_) => const StatisticsScreen(path: Strings.patient1,)));
                 }, child: Center(child: Text('Статистика'))),
-              )
+              ),
+              const SizedBox(width: 50, height: 30,),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: SizedBox(
+                  height: 30,
+                  child: DropdownMenu(dropdownMenuEntries: <DropdownMenuEntry> [
+                    DropdownMenuEntry(value: 1, label: 'Окно 10 с'),
+                    DropdownMenuEntry(value: 2, label: 'Окно 20 с'),
+                    DropdownMenuEntry(value: 3, label: 'Окно 30 с'),
+                  ],
+                  initialSelection: 1,
+                  onSelected: (value) {
+                    decimatedEcgCubit.windowChanged(value, Strings.patient1);
+                  },
+                  
+                  ),
+                )
+              ),
             ],
           ),
           BlocBuilder<DecimatedEcgCubit, DecimatedEcgState>(
   builder: (context, state) => state.when(
     initial: () => const CircularProgressIndicator(),
     loading: () => const CircularProgressIndicator(),
-    loaded: (outputDecimatedEcg, outputDecimatedEcgX) {
+    loaded: (outputDecimatedEcg, outputDecimatedEcgX,rectWidth) {
       final xMin = outputDecimatedEcgX.first;
       final xMax = outputDecimatedEcgX.last;
-      const rectWidth = 200.0;
+      
 
       final dragX = ValueNotifier<double?>((xMax + xMin) / 2); // initial position in center
 
@@ -127,10 +149,17 @@ class HomeScreen extends StatelessWidget {
                                 getTitlesWidget: (value, meta) => Text(value.toStringAsFixed(1)),
                               ),
                             ),
-                            bottomTitles: const AxisTitles(
-                              axisNameWidget: Text("Время,с", style: TextStyle(fontSize: 14)),
+                              bottomTitles: AxisTitles(
+                              axisNameWidget: const Text("Время,с", style: TextStyle(fontSize: 14)),
                               axisNameSize: 30,
-                              sideTitles: SideTitles(showTitles: true, reservedSize: 30),
+                              sideTitles: SideTitles(showTitles: true, reservedSize: 30,
+                              getTitlesWidget: (value, meta) => Padding(
+                            padding: const EdgeInsets.fromLTRB(0,5,0,0),
+                            child: Text(value.toStringAsFixed(0)),
+                          ),
+                          maxIncluded: false,
+                          
+                              ),
                             ),
                             topTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false),
@@ -147,7 +176,7 @@ class HomeScreen extends StatelessWidget {
                           child: Container(
                             width: (endX - startX) / (xMax - xMin) * chartWidth,
                             height: 58,
-                            color: Colors.blue.withAlpha(70),
+                            color: Colors.green.withAlpha(90),
                           ),
                         ),
                     ],
@@ -222,6 +251,7 @@ class HomeScreen extends StatelessWidget {
                           showTitles: true,
                           reservedSize: 35,
                           maxIncluded: false,
+                          minIncluded: false,
                           getTitlesWidget: (value, meta) {
                             // if (value == meta.max) {
                             //   return const Text(''); // Don't show max value
@@ -229,8 +259,8 @@ class HomeScreen extends StatelessWidget {
                             return Text(value.toStringAsFixed(1));
                           },
                         )),
-                    bottomTitles: const AxisTitles(
-                        axisNameWidget: Text(
+                    bottomTitles: AxisTitles(
+                        axisNameWidget: const Text(
                           "Время,с",
                           style: TextStyle(
                             fontSize: 14,
@@ -238,6 +268,12 @@ class HomeScreen extends StatelessWidget {
                         ),
                         axisNameSize: 30,
                         sideTitles: SideTitles(
+                          getTitlesWidget: (value, meta) => Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Text(value.toStringAsFixed(1)),
+                          ),
+                          maxIncluded: false,
+                          minIncluded: false,
                           showTitles: true,
                           reservedSize: 30,
                         )),
@@ -305,6 +341,7 @@ class HomeScreen extends StatelessWidget {
                           showTitles: true,
                           reservedSize: 50,
                           maxIncluded: false,
+                          minIncluded: false,
                           getTitlesWidget: (value, meta) {
                             // if (value == meta.max) {
                             //   return const Text(''); // Don't show max value
@@ -312,8 +349,8 @@ class HomeScreen extends StatelessWidget {
                             return Text(value.toStringAsFixed(1));
                           },
                         )),
-                    bottomTitles: const AxisTitles(
-                        axisNameWidget: Text(
+                    bottomTitles: AxisTitles(
+                        axisNameWidget: const Text(
                           "Время,с",
                           style: TextStyle(
                             fontSize: 14,
@@ -321,6 +358,12 @@ class HomeScreen extends StatelessWidget {
                         ),
                         axisNameSize: 30,
                         sideTitles: SideTitles(
+                          getTitlesWidget: (value, meta) => Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Text(value.toStringAsFixed(1)),
+                          ),
+                          maxIncluded: false,
+                          minIncluded: false,
                           showTitles: true,
                           reservedSize: 30,
                         )),
@@ -386,6 +429,7 @@ class HomeScreen extends StatelessWidget {
                           showTitles: true,
                           reservedSize: 50,
                           maxIncluded: false,
+                          minIncluded: false,
                           getTitlesWidget: (value, meta) {
                             // if (value == meta.max) {
                             //   return const Text(''); // Don't show max value
@@ -393,8 +437,8 @@ class HomeScreen extends StatelessWidget {
                             return Text(value.toStringAsFixed(1));
                           },
                         )),
-                    bottomTitles: const AxisTitles(
-                        axisNameWidget: Text(
+                    bottomTitles: AxisTitles(
+                        axisNameWidget: const Text(
                           "Время,с",
                           style: TextStyle(
                             fontSize: 14,
@@ -402,6 +446,12 @@ class HomeScreen extends StatelessWidget {
                         ),
                         axisNameSize: 30,
                         sideTitles: SideTitles(
+                          getTitlesWidget: (value, meta) => Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Text(value.toStringAsFixed(1)),
+                          ),
+                          maxIncluded: false,
+                          minIncluded: false,
                           showTitles: true,
                           reservedSize: 30,
                         )),

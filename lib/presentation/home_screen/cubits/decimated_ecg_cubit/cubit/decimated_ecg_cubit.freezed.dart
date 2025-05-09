@@ -20,8 +20,8 @@ mixin _$DecimatedEcgState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)
+    required TResult Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,8 +29,8 @@ mixin _$DecimatedEcgState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)?
+    TResult? Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)?
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -38,8 +38,8 @@ mixin _$DecimatedEcgState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)?
+    TResult Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)?
         loaded,
     required TResult orElse(),
   }) =>
@@ -132,8 +132,8 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)
+    required TResult Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)
         loaded,
   }) {
     return initial();
@@ -144,8 +144,8 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)?
+    TResult? Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)?
         loaded,
   }) {
     return initial?.call();
@@ -156,8 +156,8 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)?
+    TResult Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)?
         loaded,
     required TResult orElse(),
   }) {
@@ -249,8 +249,8 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)
+    required TResult Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)
         loaded,
   }) {
     return loading();
@@ -261,8 +261,8 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)?
+    TResult? Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)?
         loaded,
   }) {
     return loading?.call();
@@ -273,8 +273,8 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)?
+    TResult Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)?
         loaded,
     required TResult orElse(),
   }) {
@@ -330,7 +330,9 @@ abstract class _$$LoadedImplCopyWith<$Res> {
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX});
+      {List<double> outputDecimatedEcg,
+      List<double> outputDecimatedEcgX,
+      double rectWidth});
 }
 
 /// @nodoc
@@ -348,6 +350,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
   $Res call({
     Object? outputDecimatedEcg = null,
     Object? outputDecimatedEcgX = null,
+    Object? rectWidth = null,
   }) {
     return _then(_$LoadedImpl(
       null == outputDecimatedEcg
@@ -358,6 +361,10 @@ class __$$LoadedImplCopyWithImpl<$Res>
           ? _value._outputDecimatedEcgX
           : outputDecimatedEcgX // ignore: cast_nullable_to_non_nullable
               as List<double>,
+      null == rectWidth
+          ? _value.rectWidth
+          : rectWidth // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -366,7 +373,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
 class _$LoadedImpl implements _Loaded {
   const _$LoadedImpl(final List<double> outputDecimatedEcg,
-      final List<double> outputDecimatedEcgX)
+      final List<double> outputDecimatedEcgX, this.rectWidth)
       : _outputDecimatedEcg = outputDecimatedEcg,
         _outputDecimatedEcgX = outputDecimatedEcgX;
 
@@ -389,8 +396,11 @@ class _$LoadedImpl implements _Loaded {
   }
 
   @override
+  final double rectWidth;
+
+  @override
   String toString() {
-    return 'DecimatedEcgState.loaded(outputDecimatedEcg: $outputDecimatedEcg, outputDecimatedEcgX: $outputDecimatedEcgX)';
+    return 'DecimatedEcgState.loaded(outputDecimatedEcg: $outputDecimatedEcg, outputDecimatedEcgX: $outputDecimatedEcgX, rectWidth: $rectWidth)';
   }
 
   @override
@@ -401,14 +411,17 @@ class _$LoadedImpl implements _Loaded {
             const DeepCollectionEquality()
                 .equals(other._outputDecimatedEcg, _outputDecimatedEcg) &&
             const DeepCollectionEquality()
-                .equals(other._outputDecimatedEcgX, _outputDecimatedEcgX));
+                .equals(other._outputDecimatedEcgX, _outputDecimatedEcgX) &&
+            (identical(other.rectWidth, rectWidth) ||
+                other.rectWidth == rectWidth));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_outputDecimatedEcg),
-      const DeepCollectionEquality().hash(_outputDecimatedEcgX));
+      const DeepCollectionEquality().hash(_outputDecimatedEcgX),
+      rectWidth);
 
   /// Create a copy of DecimatedEcgState
   /// with the given fields replaced by the non-null parameter values.
@@ -423,11 +436,11 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)
+    required TResult Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)
         loaded,
   }) {
-    return loaded(outputDecimatedEcg, outputDecimatedEcgX);
+    return loaded(outputDecimatedEcg, outputDecimatedEcgX, rectWidth);
   }
 
   @override
@@ -435,11 +448,11 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)?
+    TResult? Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)?
         loaded,
   }) {
-    return loaded?.call(outputDecimatedEcg, outputDecimatedEcgX);
+    return loaded?.call(outputDecimatedEcg, outputDecimatedEcgX, rectWidth);
   }
 
   @override
@@ -447,13 +460,13 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<double> outputDecimatedEcg, List<double> outputDecimatedEcgX)?
+    TResult Function(List<double> outputDecimatedEcg,
+            List<double> outputDecimatedEcgX, double rectWidth)?
         loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(outputDecimatedEcg, outputDecimatedEcgX);
+      return loaded(outputDecimatedEcg, outputDecimatedEcgX, rectWidth);
     }
     return orElse();
   }
@@ -494,11 +507,14 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements DecimatedEcgState {
-  const factory _Loaded(final List<double> outputDecimatedEcg,
-      final List<double> outputDecimatedEcgX) = _$LoadedImpl;
+  const factory _Loaded(
+      final List<double> outputDecimatedEcg,
+      final List<double> outputDecimatedEcgX,
+      final double rectWidth) = _$LoadedImpl;
 
   List<double> get outputDecimatedEcg;
   List<double> get outputDecimatedEcgX;
+  double get rectWidth;
 
   /// Create a copy of DecimatedEcgState
   /// with the given fields replaced by the non-null parameter values.

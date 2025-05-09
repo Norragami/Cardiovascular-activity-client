@@ -12,7 +12,7 @@ class DecimatedEcgCubit extends Cubit<DecimatedEcgState> {
   final JuliaServerRepository _juliaServerRepository =
       GetIt.I<JuliaServerRepository>();
   bool moved = false;
-
+  double rectWidth = 200;
 
   
   void getDecimatedEcgData(String path) async {
@@ -23,7 +23,24 @@ class DecimatedEcgCubit extends Cubit<DecimatedEcgState> {
         var outputDecimatedEcg = extractDataFromJson("outputDecimatedECG", decimatedEcgData);
         var outputDecimatedEcgX = extractDataFromJson("outputDecimatedECG_X", decimatedEcgData);
 
-        emit(DecimatedEcgState.loaded(outputDecimatedEcg, outputDecimatedEcgX));
+        emit(DecimatedEcgState.loaded(outputDecimatedEcg, outputDecimatedEcgX,rectWidth));
 
+  }
+
+  void windowChanged(int value, String path) async {
+    switch (value) {
+      case 1:
+        rectWidth = 200;
+        getDecimatedEcgData(path);
+        break;
+      case 2:
+      rectWidth = 400;
+        getDecimatedEcgData(path);
+        break;
+      case 3:
+      rectWidth = 600;
+        getDecimatedEcgData(path);
+        break;
+    }
   }
 }

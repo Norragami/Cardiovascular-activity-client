@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:cardiovascular_client/domain/repositories/hive_repository.dart';
 import 'package:cardiovascular_client/domain/repositories/julia_server_repository.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ap_cubit/cubit/ap_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/decimated_ecg_cubit/cubit/decimated_ecg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ecg_cubit/cubit/ecg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/cubits/ppg_cubit/cubit/ppg_cubit.dart';
 import 'package:cardiovascular_client/presentation/home_screen/pages/home_screen.dart';
+import 'package:cardiovascular_client/presentation/settings_screen/cubits/cubit/settings_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/heart_volume_cubit/cubit/heart_volume_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/pulseWave_cubit/cubit/pulse_wave_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/rrIntervals_cubit/cubit/rr_intervals_cubit.dart';
@@ -41,6 +43,7 @@ void main() async {
 
   GetIt.I.registerSingleton<Talker>(TalkerFlutter.init());  
   GetIt.I.registerSingleton<JuliaServerRepository>(JuliaServerRepository());
+  GetIt.I.registerSingleton<HiveRepository>(HiveRepository.openBox());
 
   runApp(const MainApp());
 }
@@ -67,6 +70,7 @@ class MainApp extends StatelessWidget {
           BlocProvider(create: (context) => RrIntervalsCubit()),
           BlocProvider(create: (context) => PulseWaveCubit()),
           BlocProvider(create: (context) => HeartVolumeCubit()),
+          BlocProvider(create: (context) => SettingsCubit()),
         ],
         child: child!,
        ),

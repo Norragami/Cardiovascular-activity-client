@@ -1,4 +1,5 @@
 import 'package:cardiovascular_client/domain/core/strings.dart';
+import 'package:cardiovascular_client/presentation/settings_screen/cubits/cubit/settings_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/heart_volume_cubit/cubit/heart_volume_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/pulseWave_cubit/cubit/pulse_wave_cubit.dart';
 import 'package:cardiovascular_client/presentation/statistics_screen/cubits/rrIntervals_cubit/cubit/rr_intervals_cubit.dart';
@@ -17,6 +18,7 @@ class StatisticsScreen extends StatelessWidget {
     final rrIntervalsCubit = context.read<RrIntervalsCubit>();
     final pulseWaveCubit = context.read<PulseWaveCubit>();
     final heartVolumeCubit = context.read<HeartVolumeCubit>();
+    final settingsCubit = context.read<SettingsCubit>();
 
     rrIntervalsCubit.getRrIntervalsData(Strings.patient1);
     pulseWaveCubit.getPulseWaveReachTimeData(Strings.patient1);
@@ -369,25 +371,31 @@ class StatisticsScreen extends StatelessWidget {
               builder:(context,state)=> state.when(
                 initial: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
                 loading: () => Center(child: SizedBox(width: 100, height: 100, child: const CircularProgressIndicator())),
-                loaded: (rrIntervals,mRR, sdrr, msd, rmssd, pnn50)=> Center(
+                loaded: (rrIntervals,mRR, sdrr, msd, rmssd, pnn50){ 
+                  var referenceSDRR = double.tryParse(settingsCubit.readSettingsParameter('SDRR'));
+                  var referenceRMSD = double.tryParse(settingsCubit.readSettingsParameter('rMSD'));
+                  var referencePNN50 = double.tryParse(settingsCubit.readSettingsParameter('PNN50'));
+                  
+                  
+                return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       
-                      Text('mRR: ${mRR.toStringAsFixed(5)} мс', style: TextStyle(fontSize: 15),),
+                      Text('mRR: ${mRR.toStringAsFixed(2)} мс', style: TextStyle(fontSize: 15),),
                       SizedBox(height: 10,),
-                      Text('SDRR: ${sdrr.toStringAsFixed(5)} мс', style: TextStyle(fontSize: 15),),
+                      Text('MSD: ${msd.toStringAsFixed(2)} мс', style: TextStyle(fontSize: 15),),
                       SizedBox(height: 10,),
-                      Text('MSD: ${msd.toStringAsFixed(5)} мс', style: TextStyle(fontSize: 15),),
+                      Text('SDRR: ${sdrr.toStringAsFixed(2)} мс', style: TextStyle(fontSize: 15, color: referenceSDRR != null && sdrr < referenceSDRR ? Colors.red : Colors.green),),
                       SizedBox(height: 10,),
-                      Text('rMSD: ${rmssd.toStringAsFixed(5)} мс', style: TextStyle(fontSize: 15),),
+                      Text('rMSD: ${rmssd.toStringAsFixed(2)} мс', style: TextStyle(fontSize: 15, color: referenceRMSD != null && rmssd < referenceRMSD ? Colors.red : Colors.green),),
                       SizedBox(height: 10,),
-                      Text('PNN50: ${pnn50.toStringAsFixed(2)} %', style: TextStyle(fontSize: 15),),
+                      Text('PNN50: ${pnn50.toStringAsFixed(2)} %', style: TextStyle(fontSize: 15, color: referencePNN50 != null && pnn50 < referencePNN50 ? Colors.red : Colors.green),),
                       SizedBox(height: 10,),
                     ],
                   ),
-                  ),
-                
+                  );
+                }
                 )
                 
               ),

@@ -13,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
     settingsCubit.loadSettings();
     return Scaffold(
     appBar: AppBar(
-        title: const Text('Настройки'),
+        title: const Text('Настройки параметров нормы'),
         centerTitle: true,
         backgroundColor: Colors.blue.shade400,
       ),
